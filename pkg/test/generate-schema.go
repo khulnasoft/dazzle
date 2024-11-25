@@ -9,7 +9,7 @@ import (
 	"log"
 
 	"github.com/alecthomas/jsonschema"
-	"github.com/gitpod-io/dazzle/pkg/test"
+	"github.com/khulnasoft/dazzle/pkg/test"
 )
 
 func main() {

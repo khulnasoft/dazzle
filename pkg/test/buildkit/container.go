@@ -14,8 +14,8 @@ import (
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/sync/errgroup"
 
-	"github.com/gitpod-io/dazzle/pkg/test"
-	"github.com/gitpod-io/dazzle/pkg/test/runner"
+	"github.com/khulnasoft/dazzle/pkg/test"
+	"github.com/khulnasoft/dazzle/pkg/test/runner"
 )
 
 // NewExecutor creates a new buildkit-backed executor

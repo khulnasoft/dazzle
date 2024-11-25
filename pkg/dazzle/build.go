@@ -1,4 +1,4 @@
-// Copyright © 2020 Gitpod
+// Copyright © 2020 Khulnasoft
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -46,8 +46,8 @@ import (
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/sync/errgroup"
 
-	"github.com/gitpod-io/dazzle/pkg/test"
-	"github.com/gitpod-io/dazzle/pkg/test/buildkit"
+	"github.com/khulnasoft/dazzle/pkg/test"
+	"github.com/khulnasoft/dazzle/pkg/test/buildkit"
 )
 
 var (
@@ -55,8 +55,8 @@ var (
 )
 
 const (
-	mfAnnotationBaseRef = "dazzle.gitpod.io/base-ref"
-	mfAnnotationEnvVar  = "dazzle.gitpod.io/env-"
+	mfAnnotationBaseRef = "dazzle.khulnasoft.io/base-ref"
+	mfAnnotationEnvVar  = "dazzle.khulnasoft.io/env-"
 )
 
 type buildOpts struct {

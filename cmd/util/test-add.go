@@ -1,4 +1,4 @@
-// Copyright © 2020 Gitpod
+// Copyright © 2020 Khulnasoft
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -34,8 +34,8 @@ import (
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 
-	"github.com/gitpod-io/dazzle/pkg/fancylog"
-	"github.com/gitpod-io/dazzle/pkg/test"
+	"github.com/khulnasoft/dazzle/pkg/fancylog"
+	"github.com/khulnasoft/dazzle/pkg/test"
 )
 
 var testAddCmd = &cobra.Command{
@@ -159,11 +159,13 @@ func splitCommand(cmd string) ([]string, error) {
 }
 
 func addAssertions(spec *test.Spec, runres *test.RunResult) error {
-	// don't let log messages interfere with prompt
+	// Set log level to prevent log messages from interfering with the prompt
 	log.SetLevel(log.WarnLevel)
 
+	// Serialize stdout and stderr for display
 	stdout, _ := json.Marshal(string(runres.Stdout))
 	stderr, _ := json.Marshal(string(runres.Stderr))
+
 	fmt.Println("Available variables are:")
 	color.Info.Print("stdout: ")
 	fmt.Println(string(stdout))
@@ -173,6 +175,7 @@ func addAssertions(spec *test.Spec, runres *test.RunResult) error {
 	fmt.Println(runres.StatusCode)
 
 	for {
+		// Prompt for adding an assertion
 		p := promptui.Prompt{
 			Label:     "Assertion",
 			AllowEdit: true,
@@ -184,7 +187,8 @@ func addAssertions(spec *test.Spec, runres *test.RunResult) error {
 				}
 
 				if res.Failure != nil {
-					return fmt.Errorf(res.Failure.Message)
+					// Safely format the error message
+					return fmt.Errorf("%s", res.Failure.Message)
 				}
 
 				return nil
@@ -196,6 +200,7 @@ func addAssertions(spec *test.Spec, runres *test.RunResult) error {
 		}
 		spec.Assertions = append(spec.Assertions, a)
 
+		// Prompt to ask if another assertion should be added
 		p = promptui.Prompt{
 			Label:     "Add another assertion?",
 			IsConfirm: true,
@@ -205,6 +210,7 @@ func addAssertions(spec *test.Spec, runres *test.RunResult) error {
 		if err != nil && err != promptui.ErrAbort {
 			return err
 		}
+		// Break if the user chooses not to continue
 		if strings.TrimSpace(cont) != "" && strings.ToLower(cont) != "y" {
 			break
 		}

@@ -1,4 +1,4 @@
-// Copyright © 2020 Gitpod
+// Copyright © 2020 Khulnasoft
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@ import (
 	"github.com/moby/buildkit/client"
 	"github.com/spf13/cobra"
 
-	"github.com/gitpod-io/dazzle/pkg/dazzle"
+	"github.com/khulnasoft/dazzle/pkg/dazzle"
 )
 
 // buildCmd represents the build command

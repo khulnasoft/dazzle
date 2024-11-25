@@ -1,10 +1,10 @@
 image:
-  file: .gitpod.Dockerfile
+  file: .khulnasoft.Dockerfile
 
 checkoutLocation: dazzle
 workspaceLocation: dazzle
 tasks:
-  - command: sudo buildkitd --group gitpod
+  - command: sudo buildkitd --group khulnasoft
   - command: docker run -p 5000:5000 --name registry --rm registry:2
     openMode: split-right
   - init: go get -v ./...

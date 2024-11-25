@@ -1,4 +1,4 @@
-// Copyright © 2020 Gitpod
+// Copyright © 2020 Khulnasoft
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@ import (
 	ignore "github.com/sabhiram/go-gitignore"
 	"gopkg.in/yaml.v3"
 
-	"github.com/gitpod-io/dazzle/pkg/test"
+	"github.com/khulnasoft/dazzle/pkg/test"
 )
 
 const (

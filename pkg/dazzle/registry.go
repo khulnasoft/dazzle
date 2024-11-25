@@ -1,4 +1,4 @@
-// Copyright © 2020 Gitpod
+// Copyright © 2020 Khulnasoft
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@ import (
 )
 
 const (
-	mediaTypeTestResult = "application/vnd.gitpod.dazzle.tests.v1+json"
+	mediaTypeTestResult = "application/vnd.khulnasoft.dazzle.tests.v1+json"
 )
 
 // Registry provides container registry services

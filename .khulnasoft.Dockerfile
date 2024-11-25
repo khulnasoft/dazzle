@@ -1,4 +1,4 @@
-FROM gitpod/workspace-full
+FROM khulnasoft/workspace-full
 
 USER root
 ENV TRIGGER_REBUILD=2
@@ -8,4 +8,4 @@ RUN sudo su -c "cd /usr; curl -L https://github.com/moby/buildkit/releases/downl
 # NOTE: remove when workspace-full includes golangci
 RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sudo BINDIR=/usr/local/bin sh
 
-USER gitpod
+USER khulnasoft

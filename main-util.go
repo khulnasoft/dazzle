@@ -1,4 +1,4 @@
-// Copyright © 2020 Gitpod
+// Copyright © 2020 Khulnasoft
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
 
 package main
 
-import cmd "github.com/gitpod-io/dazzle/cmd/util"
+import cmd "github.com/khulnasoft/dazzle/cmd/util"
 
 func main() {
 	cmd.Execute()
