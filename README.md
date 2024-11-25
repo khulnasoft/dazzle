@@ -1,6 +1,6 @@
 <img src="logo.png" width="100" style="padding: 1em; background-color: white; border-radius: 10px;">
 
-[![Setup Automated](https://img.shields.io/badge/setup-automated-blue?logo=khulnasoft)](https://khulnasoft.io/#https://github.com/khulnasoft/dazzle)
+[![Setup Automated](https://img.shields.io/badge/setup-automated-blue?logo=khulnasoft)](https://gitpod.io/#https://github.com/khulnasoft/dazzle)
 [![Go Report Card](https://goreportcard.com/badge/github.com/khulnasoft/dazzle)](https://goreportcard.com/report/github.com/khulnasoft/dazzle)
 [![Stability: Experimental](https://masterminds.github.io/stability/experimental.svg)](https://masterminds.github.io/stability/experimental.html)
 

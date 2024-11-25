@@ -55,8 +55,8 @@ var (
 )
 
 const (
-	mfAnnotationBaseRef = "dazzle.khulnasoft.io/base-ref"
-	mfAnnotationEnvVar  = "dazzle.khulnasoft.io/env-"
+	mfAnnotationBaseRef = "dazzle.gitpod.io/base-ref"
+	mfAnnotationEnvVar  = "dazzle.gitpod.io/env-"
 )
 
 type buildOpts struct {
