@@ -37,9 +37,23 @@ func validateProject(projectDir string) error {
 		"base/Dockerfile",
 	}
 
+	requiredDirs := []string{
+		"chunks",
+		"tests",
+	}
+
 	for _, file := range requiredFiles {
 		if _, err := os.Stat(filepath.Join(projectDir, file)); os.IsNotExist(err) {
 			return fmt.Errorf("missing required file: %s", file)
+		}
+	}
+
+	for _, dir := range requiredDirs {
+		dirPath := filepath.Join(projectDir, dir)
+		if fi, err := os.Stat(dirPath); os.IsNotExist(err) {
+			return fmt.Errorf("missing required directory: %s", dir)
+		} else if err == nil && !fi.IsDir() {
+			return fmt.Errorf("%s exists but is not a directory", dir)
 		}
 	}
 
