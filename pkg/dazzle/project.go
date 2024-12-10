@@ -1,23 +1,3 @@
-// Copyright © 2020 Khulnasoft
-
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-
 package dazzle
 
 import (
@@ -325,7 +305,7 @@ func loadChunks(dir fs.FS, contextBase, base, name string) (res []ProjectChunk, 
 			return nil, err
 		}
 
-		tf, err := fs.ReadFile(dir, filepath.Join(testsDir, fmt.Sprintf("%s.yaml", name)))
+		tf, err := fs.ReadFile(dir, filepath.join(testsDir, fmt.Sprintf("%s.yaml", name)))
 		if os.IsNotExist(err) {
 			// no tests - we're good
 			return &chk, nil
@@ -527,4 +507,64 @@ func (p *ProjectChunk) Hash(out io.Writer, sess *BuildSession) (string, error) {
 	}
 
 	return p.hash(sess.baseRef.String(), sess.opts.NoTests)
+}
+
+// ValidateProject validates the project structure and files
+func ValidateProject(projectDir string) error {
+	requiredFiles := []string{
+		"dazzle.yaml",
+		"base/Dockerfile",
+	}
+
+	for _, file := range requiredFiles {
+		if _, err := os.Stat(filepath.Join(projectDir, file)); os.IsNotExist(err) {
+			return fmt.Errorf("missing required file: %s", file)
+		}
+	}
+
+	if err := validateYAML(filepath.Join(projectDir, "dazzle.yaml")); err != nil {
+		return fmt.Errorf("invalid dazzle.yaml: %w", err)
+	}
+
+	chunkDirs, err := filepath.Glob(filepath.Join(projectDir, "chunks", "*"))
+	if err != nil {
+		return fmt.Errorf("failed to list chunk directories: %w", err)
+	}
+
+	for _, chunkDir := range chunkDirs {
+		if _, err := os.Stat(filepath.Join(chunkDir, "Dockerfile")); os.IsNotExist(err) {
+			return fmt.Errorf("missing Dockerfile in chunk directory: %s", chunkDir)
+		}
+	}
+
+	testFiles, err := filepath.Glob(filepath.Join(projectDir, "tests", "*.yaml"))
+	if err != nil {
+		return fmt.Errorf("failed to list test files: %w", err)
+	}
+
+	for _, testFile := range testFiles {
+		if err := validateYAML(testFile); err != nil {
+			return fmt.Errorf("invalid test specification file: %s, error: %w", testFile, err)
+		}
+	}
+
+	return nil
+}
+
+func validateYAML(filePath string) error {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return fmt.Errorf("failed to open file: %w", err)
+	}
+	defer file.Close()
+
+	decoder := yaml.NewDecoder(file)
+	decoder.KnownFields(true)
+
+	var content interface{}
+	if err := decoder.Decode(&content); err != nil {
+		return fmt.Errorf("failed to decode YAML: %w", err)
+	}
+
+	return nil
 }
