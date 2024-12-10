@@ -2,17 +2,30 @@
 set -e
 
 GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o bin/runner_linux_amd64 main.go
-curl -L https://github.com/upx/upx/releases/download/v3.96/upx-3.96-amd64_linux.tar.xz | tar xJ
-upx-3.96-amd64_linux/upx bin/runner_linux_amd64 
-rm -r upx-3.96-amd64_linux
+
+# Check the operating system and handle UPX accordingly
+if [ "$(uname)" = "Darwin" ]; then
+    # On macOS, use brew-installed upx if available
+    if command -v upx >/dev/null 2>&1; then
+        upx bin/runner_linux_amd64
+    else
+        echo "Warning: UPX not found. Install with 'brew install upx' for binary compression"
+    fi
+else
+    # On Linux, download and use UPX as before
+    curl -L https://github.com/upx/upx/releases/download/v3.96/upx-3.96-amd64_linux.tar.xz | tar xJ
+    upx-3.96-amd64_linux/upx bin/runner_linux_amd64 
+    rm -r upx-3.96-amd64_linux
+fi
+
 go install github.com/GeertJohan/go.rice/rice@v1.0.2
 RICEBIN="$GOBIN"
 if [ -z "$RICEBIN" ]; then
-  if [ -z "$GOPATH" ]; then
-    RICEBIN="$HOME"/go/bin
-  else
-    RICEBIN="$GOPATH"/bin
-  fi
+    if [ -z "$GOPATH" ]; then
+        RICEBIN="$HOME"/go/bin
+    else
+        RICEBIN="$GOPATH"/bin
+    fi
 fi
 
 "$RICEBIN"/rice embed-go -i github.com/khulnasoft/dazzle/pkg/test/runner
