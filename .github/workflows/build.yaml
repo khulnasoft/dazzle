@@ -146,7 +146,7 @@ jobs:
         run: |
           mkdir -p test-results
       - name: Get code coverage artifiact
-        uses: actions/download-artifact@v4.1.8
+        uses: actions/download-artifact@v4.1.9
         with:
           name: code-coverage
       - name: Upload code coverage information to codecov.io
