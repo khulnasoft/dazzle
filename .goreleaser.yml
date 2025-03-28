@@ -28,10 +28,8 @@ builds:
       - linux
 
 archives:
-  - name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+  - name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}.tar.gz"
     files:
-      - README.md
-      - LICENSE
       - dist/**  # Adjust based on your output files
 
 # Removed snapshot_name; GoReleaser uses default snapshot behavior now
