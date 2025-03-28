@@ -98,11 +98,14 @@ jobs:
           BUILDKIT_ADDR: unix:///run/buildkit/buildkitd.sock
           TARGET_REF: 127.0.0.1:5000
         run: go test -v -coverprofile=coverage.out $(go list ./...)
+      - name: Ensure coverage file exists
+        run: test -f coverage.out || (echo "coverage.out not found!" && exit 1)
       - name: Generate code coverage artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: code-coverage-artifact
           path: coverage.out
+          if-no-files-found: error
 
   test-go-race:
     name: Run unit tests with -race
