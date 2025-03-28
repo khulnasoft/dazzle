@@ -142,7 +142,7 @@ jobs:
       - name: Create test-results directory
         run: mkdir -p test-results
       - name: Get code coverage artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: code-coverage-artifact
       - name: Upload code coverage information to codecov.io
