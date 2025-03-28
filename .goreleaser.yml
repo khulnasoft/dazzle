@@ -13,11 +13,14 @@ builds:
     goos:
       - darwin
       - linux
+    goarch:
+      - amd64
+      - arm64  # Optional: Add more architectures as needed
 
   - id: dazzle-util
     env:
       - CGO_ENABLED=0
-    main: main-util.go
+    main: ./cmd/util/main-util.go  # Ensure correct path to main-util.go
     binary: dazzle-util
     flags:
       - -tags=util
@@ -26,14 +29,16 @@ builds:
     goos:
       - darwin
       - linux
+    goarch:
+      - amd64
+      - arm64  # Optional: Add more architectures as needed
 
 archives:
   - name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}.tar.gz"
     files:
-      - dist/**  # Adjust based on your output files
+      - dist/**  # Make sure this matches your build output
 
-# Removed snapshot_name; GoReleaser uses default snapshot behavior now
-snapshot: {}
+snapshot: {}  # Default snapshot behavior, can be left empty or further configured
 
 changelog:
   sort: asc
@@ -43,12 +48,12 @@ changelog:
       - "^test:"
 
 release:
-  prerelease: auto
+  prerelease: auto  # Automatically set pre-release based on version
 
 dockers:
   - goos: linux
     goarch: amd64
-    goarm: ""
+    goarm: ""  # If you're not targeting a specific ARM version, keep this empty
     dockerfile: Dockerfile
     image_templates:
       - "ghcr.io/khulnasoft/dazzle:{{ .Tag }}"
