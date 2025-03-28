@@ -1,61 +1,65 @@
-version: 2
-
 before:
   hooks:
     - go generate -v ./...
-
 builds:
-  - id: dazzle
-    env:
-      - CGO_ENABLED=0
-    ldflags:
-      - -s -w -X github.com/khulnasoft/dazzle/cmd/core.version={{.Version}}-{{.ShortCommit}}
-    goos:
-      - darwin
-      - linux
-    goarch:
-      - amd64
-      - arm64  # Optional: Add more architectures as needed
-
-  - id: dazzle-util
-    env:
-      - CGO_ENABLED=0
-    main: ./cmd/util/main-util.go  # Ensure correct path to main-util.go
-    binary: dazzle-util
-    flags:
-      - -tags=util
-    ldflags:
-      - -s -w -X github.com/khulnasoft/dazzle/cmd/util.version={{.Version}}-{{.ShortCommit}}
-    goos:
-      - darwin
-      - linux
-    goarch:
-      - amd64
-      - arm64  # Optional: Add more architectures as needed
-
+- id: dazzle
+  env:
+  - CGO_ENABLED=0
+  ldflags:
+  - -s -w -X github.com/khulnasoft/dazzle/cmd/core.version={{.Version}}-{{.ShortCommit}}
+  goos:
+  - darwin
+  - linux
+- id: dazzle-util
+  env:
+  - CGO_ENABLED=0
+  main: main-util.go
+  binary: dazzle-util
+  flags:
+    - -tags=util
+  ldflags:
+  - -s -w -X github.com/khulnasoft/dazzle/cmd/util.version={{.Version}}-{{.ShortCommit}}
+  goos:
+  - darwin
+  - linux
 archives:
-  - name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}.tar.gz"
-    files:
-      - dist/**  # Make sure this matches your build output
-
-snapshot: {}  # Default snapshot behavior, can be left empty or further configured
-
+- id: dazzle
+  replacements:
+    darwin: Darwin
+    linux: Linux
+    386: i386
+    amd64: x86_64
+  builds:
+  - dazzle
+- id: dazzle-util
+  files:
+  - "none*"
+  format: binary
+  builds:
+  - dazzle-util
+  replacements:
+    darwin: Darwin
+    linux: Linux
+    386: i386
+    amd64: x86_64
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Tag }}-next"
 changelog:
   sort: asc
   filters:
     exclude:
-      - "^docs:"
-      - "^test:"
-
+    - '^docs:'
+    - '^test:'
 release:
-  prerelease: auto  # Automatically set pre-release based on version
-
+  prerelease: auto
 dockers:
   - goos: linux
     goarch: amd64
-    goarm: ""  # If you're not targeting a specific ARM version, keep this empty
+    goarm: ''
     dockerfile: Dockerfile
     image_templates:
-      - "ghcr.io/khulnasoft/dazzle:{{ .Tag }}"
+    - "ghcr.io/khulnasoft/dazzle:{{ .Tag }}"
     extra_files:
-      - README.md
+    - README.md
