@@ -30,7 +30,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 
-	"github.com/gitpod-io/dazzle/pkg/dazzle"
+	"github.com/khulnasoft/dazzle/pkg/dazzle"
 )
 
 // combineCmd represents the build command

@@ -27,7 +27,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/gitpod-io/dazzle/pkg/dazzle"
+	"github.com/khulnasoft/dazzle/pkg/dazzle"
 )
 
 // projectInitCmd represents the version command

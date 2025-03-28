@@ -30,7 +30,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 
-	"github.com/gitpod-io/dazzle/pkg/fancylog"
+	"github.com/khulnasoft/dazzle/pkg/fancylog"
 )
 
 var rootCfg struct {

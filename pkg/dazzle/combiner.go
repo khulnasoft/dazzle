@@ -33,8 +33,8 @@ import (
 	ociv1 "github.com/opencontainers/image-spec/specs-go/v1"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/gitpod-io/dazzle/pkg/test"
-	"github.com/gitpod-io/dazzle/pkg/test/buildkit"
+	"github.com/khulnasoft/dazzle/pkg/test"
+	"github.com/khulnasoft/dazzle/pkg/test/buildkit"
 )
 
 type combinerOpts struct {

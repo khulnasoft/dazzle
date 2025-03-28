@@ -6,7 +6,7 @@ builds:
   env:
   - CGO_ENABLED=0
   ldflags:
-  - -s -w -X github.com/gitpod-io/dazzle/cmd/core.version={{.Version}}-{{.ShortCommit}}
+  - -s -w -X github.com/khulnasoft/dazzle/cmd/core.version={{.Version}}-{{.ShortCommit}}
   goos:
   - darwin
   - linux
@@ -18,7 +18,7 @@ builds:
   flags:
     - -tags=util
   ldflags:
-  - -s -w -X github.com/gitpod-io/dazzle/cmd/util.version={{.Version}}-{{.ShortCommit}}
+  - -s -w -X github.com/khulnasoft/dazzle/cmd/util.version={{.Version}}-{{.ShortCommit}}
   goos:
   - darwin
   - linux
@@ -60,6 +60,6 @@ dockers:
     goarm: ''
     dockerfile: Dockerfile
     image_templates:
-    - "ghcr.io/gitpod-io/dazzle:{{ .Tag }}"
+    - "ghcr.io/khulnasoft/dazzle:{{ .Tag }}"
     extra_files:
     - README.md

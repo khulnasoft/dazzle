@@ -23,7 +23,7 @@
 
 package main
 
-import cmd "github.com/gitpod-io/dazzle/cmd/core"
+import cmd "github.com/khulnasoft/dazzle/cmd/core"
 
 func main() {
 	cmd.Execute()

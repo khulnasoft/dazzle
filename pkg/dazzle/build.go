@@ -46,8 +46,8 @@ import (
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/sync/errgroup"
 
-	"github.com/gitpod-io/dazzle/pkg/test"
-	"github.com/gitpod-io/dazzle/pkg/test/buildkit"
+	"github.com/khulnasoft/dazzle/pkg/test"
+	"github.com/khulnasoft/dazzle/pkg/test/buildkit"
 )
 
 var (

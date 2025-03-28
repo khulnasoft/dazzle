@@ -37,7 +37,7 @@ import (
 	ignore "github.com/sabhiram/go-gitignore"
 	"gopkg.in/yaml.v3"
 
-	"github.com/gitpod-io/dazzle/pkg/test"
+	"github.com/khulnasoft/dazzle/pkg/test"
 )
 
 const (
