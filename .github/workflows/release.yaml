@@ -3,36 +3,31 @@ name: Release Go project
 on:
   push:
     tags:
-      - "v*" # triggers only if push new tag version, like `0.8.4` or else
+      - "v*"  # Triggers only on new tag version, e.g., `0.8.4`
 
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      -
-        name: Setup Golang
+      - name: Setup Golang
         uses: actions/setup-go@v3
         with:
           go-version: '1.19'
-      -
-        name: Docker Login
+      - name: Docker Login
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      -
-        name: Run GoReleaser
+      - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
-          # either 'goreleaser' (default) or 'goreleaser-pro'
           distribution: goreleaser
-          version: latest
-          args: release --rm-dist
+          version: latest  # or specify a version
+          args: release  # No --rm-dist flag
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
