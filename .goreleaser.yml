@@ -26,28 +26,27 @@ builds:
   - linux
 archives:
 - id: dazzle
-  replacements:
-    darwin: Darwin
-    linux: Linux
-    386: i386
-    amd64: x86_64
   builds:
   - dazzle
+  format: tar.gz
+  format_overrides:
+    - goos: darwin
+      format: zip
+    - goos: linux
+      format: tar.gz
 - id: dazzle-util
   files:
   - "none*"
   format: binary
   builds:
   - dazzle-util
-  replacements:
-    darwin: Darwin
-    linux: Linux
-    386: i386
-    amd64: x86_64
+  format_overrides:
+    - goos: darwin
+      format: zip
+    - goos: linux
+      format: tar.gz
 checksum:
   name_template: 'checksums.txt'
-snapshot:
-  name_template: "{{ .Tag }}-next"
 changelog:
   sort: asc
   filters:
