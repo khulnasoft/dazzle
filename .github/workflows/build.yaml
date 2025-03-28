@@ -17,8 +17,7 @@ jobs:
         with:
           go-version: '1.19'
       - name: Download all Go modules
-        run: |
-          go mod download
+        run: go mod download
       - name: Check for tidyness of go.mod and go.sum
         run: |
           go mod tidy
@@ -35,13 +34,12 @@ jobs:
         with:
           go-version: '1.19'
       - name: Restore go build cache
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ~/.cache/go-build
-          key: ${{ runner.os }}-go-build-v1-${{ github.run_id }}
+          key: ${{ runner.os }}-go-build-${{ github.run_id }}
       - name: Download all Go modules
-        run: |
-          go mod download
+        run: go mod download
 
   lint-go:
     name: Lint Go code
@@ -64,9 +62,7 @@ jobs:
     needs:
       - build-go
     services:
-      # Local registry
-      registr:
-        # Docker Hub image
+      registry:
         image: registry:2
         ports:
           - 5000:5000
@@ -78,13 +74,12 @@ jobs:
         with:
           go-version: '1.19'
       - name: Restore go build cache
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ~/.cache/go-build
-          key: ${{ runner.os }}-go-build-v1-${{ github.run_id }}
+          key: ${{ runner.os }}-go-build-${{ github.run_id }}
       - name: Download and vendor all required packages
-        run: |
-          go mod download
+        run: go mod download
       - name: Build the test runner
         run: pushd pkg/test/runner; ./build.sh; popd
       - name: Install the latest buildkit release
@@ -103,11 +98,14 @@ jobs:
           BUILDKIT_ADDR: unix:///run/buildkit/buildkitd.sock
           TARGET_REF: 127.0.0.1:5000
         run: go test -v -coverprofile=coverage.out $(go list ./...)
+      - name: Ensure coverage file exists
+        run: test -f coverage.out || (echo "coverage.out not found!" && exit 1)
       - name: Generate code coverage artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
-          name: code-coverage
+          name: code-coverage-artifact
           path: coverage.out
+          if-no-files-found: error
 
   test-go-race:
     name: Run unit tests with -race
@@ -122,13 +120,12 @@ jobs:
         with:
           go-version: '1.19'
       - name: Restore go build cache
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ~/.cache/go-build
-          key: ${{ runner.os }}-go-build-v1-${{ github.run_id }}
+          key: ${{ runner.os }}-go-build-${{ github.run_id }}
       - name: Download and vendor all required packages
-        run: |
-          go mod download
+        run: go mod download
       - name: Run all unit tests
         run: go test -race -v $(go list ./...)
 
@@ -143,13 +140,12 @@ jobs:
         with:
           fetch-depth: 0
       - name: Create test-results directory
-        run: |
-          mkdir -p test-results
-      - name: Get code coverage artifiact
-        uses: actions/download-artifact@v2
+        run: mkdir -p test-results
+      - name: Get code coverage artifact
+        uses: actions/download-artifact@v4
         with:
-          name: code-coverage
+          name: code-coverage-artifact
       - name: Upload code coverage information to codecov.io
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3
         with:
           file: coverage.out
